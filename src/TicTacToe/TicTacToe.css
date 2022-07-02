@@ -1,0 +1,16 @@
+.container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.container div {
+	width: 300px;
+}
+
+table td {
+	border: 1px solid gray;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+}
