@@ -65,7 +65,7 @@ export default function TicTacToe(props) {
 		return (
 			<>
 				<h2>The Winner is: {winner}</h2>
-				<button onClick={() => handleRestartGame}>New Game</button>
+				<button onClick={() => handleRestartGame()}>New Game</button>
 			</>
 		)
 	}
