@@ -1,7 +1,7 @@
 const Winner = ({ winner }) => {
 	return (
 		<>
-			<h2>The Winner is: {winner}</h2>
+			<h2 className="win">The Winner is: {winner}</h2>
 		</>
 	)
 }

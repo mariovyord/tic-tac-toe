@@ -96,3 +96,8 @@ button:hover {
 	font-weight: bold;
 	padding: 3px 5px;
 }
+
+.win {
+	color: var(--blue);
+	font-size: 3rem;
+}
