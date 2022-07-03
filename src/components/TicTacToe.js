@@ -10,6 +10,7 @@ export default function TicTacToe(props) {
 	const [winner, setWinner] = useState(undefined);
 	const [history, setHistory] = useState([Array(9).fill(undefined)]);
 	const [step, setStep] = useState(0);
+	const [winningSquares, setWinningSquares] = useState(Array(9).fill(false));
 
 	const checkForWinner = (squares) => {
 		const combos = [
@@ -26,6 +27,11 @@ export default function TicTacToe(props) {
 		for (let combo of combos) {
 			if (squares[combo[0]] === undefined || squares[combo[1]] === undefined || squares[combo[2]] === undefined) {
 			} else if (squares[combo[0]] === squares[combo[1]] && squares[combo[1]] === squares[combo[2]]) {
+				const win = [...winningSquares];
+				win[combo[0]] = true;
+				win[combo[1]] = true;
+				win[combo[2]] = true;
+				setWinningSquares(win);
 				return setWinner(squares[combo[0]])
 			}
 		}
@@ -59,6 +65,7 @@ export default function TicTacToe(props) {
 	}
 
 	const handleRestartGame = () => {
+		setWinningSquares(Array(9).fill(false));
 		setWinner(undefined);
 		setHistory([Array(9).fill(undefined)]);
 		setStep(0);
@@ -71,19 +78,19 @@ export default function TicTacToe(props) {
 			<table>
 				<tbody>
 					<tr>
-						<Cell current={history[step]} handleClick={handleClick} num={0} />
-						<Cell current={history[step]} handleClick={handleClick} num={1} />
-						<Cell current={history[step]} handleClick={handleClick} num={2} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={0} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={1} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={2} />
 					</tr>
 					<tr>
-						<Cell current={history[step]} handleClick={handleClick} num={3} />
-						<Cell current={history[step]} handleClick={handleClick} num={4} />
-						<Cell current={history[step]} handleClick={handleClick} num={5} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={3} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={4} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={5} />
 					</tr>
 					<tr>
-						<Cell current={history[step]} handleClick={handleClick} num={6} />
-						<Cell current={history[step]} handleClick={handleClick} num={7} />
-						<Cell current={history[step]} handleClick={handleClick} num={8} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={6} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={7} />
+						<Cell isWinning={winningSquares} current={history[step]} handleClick={handleClick} num={8} />
 					</tr>
 				</tbody>
 			</table>

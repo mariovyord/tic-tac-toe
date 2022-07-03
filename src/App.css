@@ -2,7 +2,7 @@
 	--main-bg-color: rgb(102, 102, 116);
 	--pink: #F681F6;
 	--blue: #03E9F4;
-	--green: #050801; 
+	--green: #06FF01; 
 }
 
 body {
@@ -100,4 +100,8 @@ button:hover {
 .win {
 	color: var(--blue);
 	font-size: 3rem;
+}
+
+.winning-cell {
+	background-color: var(--green);
 }
