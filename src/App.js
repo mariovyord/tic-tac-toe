@@ -1,8 +1,9 @@
-import TicTacToe from './TicTacToe/TicTacToe';
+import TicTacToe from './components/TicTacToe';
+import './App.css';
 
 function App() {
 	return (
-		<div>
+		<div class="container">
 			<TicTacToe />
 		</div>
 	);

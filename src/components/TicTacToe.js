@@ -1,5 +1,8 @@
-import './TicTacToe.css';
 import { useState } from 'react';
+import History from './History';
+import Winner from './Winner';
+import Cell from './Cell';
+import NewGameButton from './NewGameButton'
 
 export default function TicTacToe(props) {
 
@@ -61,58 +64,35 @@ export default function TicTacToe(props) {
 		setStep(0);
 	}
 
-	const Cell = ({ num }) => {
-		const current = history[step];
-		return <td onClick={() => handleClick(num)}>{current[num]}</td>
-	}
-
-	const Winner = ({ winner }) => {
-		return (
-			<>
-				<h2>The Winner is: {winner}</h2>
-			</>
-		)
-	}
-
-	const NewGameButton = () => {
-		return <button onClick={() => handleRestartGame()}>New Game</button>
-	}
-
-	const History = ({ historyArray }) => {
-		return (
-			<div>
-				{historyArray.slice(1).map((x, i) => <button onClick={() => handleHistoryJump(i)} key={i}>Turn {i + 1}</button>)}
-			</div>
-		)
-	}
-
 	return (
-		<div className='container'>
-			<div>Turn: {turn}</div>
-			<div>
-				<table>
-					<tbody>
-						<tr>
-							<Cell num={0} />
-							<Cell num={1} />
-							<Cell num={2} />
-						</tr>
-						<tr>
-							<Cell num={3} />
-							<Cell num={4} />
-							<Cell num={5} />
-						</tr>
-						<tr>
-							<Cell num={6} />
-							<Cell num={7} />
-							<Cell num={8} />
-						</tr>
-					</tbody>
-				</table>
+		<div className='game'>
+			<h1>Tic Tac Toe</h1>
+			<h2>Turn: {turn}</h2>
+			<table>
+				<tbody>
+					<tr>
+						<Cell current={history[step]} handleClick={handleClick} num={0} />
+						<Cell current={history[step]} handleClick={handleClick} num={1} />
+						<Cell current={history[step]} handleClick={handleClick} num={2} />
+					</tr>
+					<tr>
+						<Cell current={history[step]} handleClick={handleClick} num={3} />
+						<Cell current={history[step]} handleClick={handleClick} num={4} />
+						<Cell current={history[step]} handleClick={handleClick} num={5} />
+					</tr>
+					<tr>
+						<Cell current={history[step]} handleClick={handleClick} num={6} />
+						<Cell current={history[step]} handleClick={handleClick} num={7} />
+						<Cell current={history[step]} handleClick={handleClick} num={8} />
+					</tr>
+				</tbody>
+			</table>
+			<div className='menu'>
+				{winner && <Winner winner={winner} />}
+				<NewGameButton handleRestartGame={handleRestartGame} />
+				<h3>History:</h3>
+				<History historyArray={history} handleHistoryJump={handleHistoryJump} />
 			</div>
-			{winner && <Winner winner={winner} />}
-			<NewGameButton />
-			<History historyArray={history} />
 		</div>
 	)
 }
