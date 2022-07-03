@@ -4,46 +4,42 @@ import { useState } from 'react';
 export default function TicTacToe(props) {
 
 	const [turn, setTurn] = useState('x')
-	const [cells, setCells] = useState(Array(9).fill(undefined));
 	const [winner, setWinner] = useState(undefined);
-	const [cantWin, setCantWin] = useState(false);
+	const [history, setHistory] = useState([Array(9).fill(undefined)]);
+	const [step, setStep] = useState(0);
 
 	const checkForWinner = (squares) => {
-		const combos = {
-			across: [
-				[0, 1, 2],
-				[3, 4, 5],
-				[6, 7, 8]
-			],
-			down: [
-				[0, 3, 6],
-				[1, 4, 7],
-				[2, 5, 8]
-			],
-			diagonal: [
-				[0, 4, 8],
-				[2, 4, 6],
-			]
-		};
+		const combos = [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+			[0, 4, 8],
+			[2, 4, 6],
+		];
 
-		for (let i in combos) {
-			combos[i].forEach(pattern => {
-				if (squares[pattern[0]] === undefined || squares[pattern[1]] === undefined || squares[pattern[2]] === undefined) {
-					return undefined;
-				} else if (squares[pattern[0]] === squares[pattern[1]] && squares[pattern[1]] === squares[pattern[2]]) {
-					return setWinner(squares[pattern[0]])
-				}
-			});
-		}
-		if (squares.some(x => x === undefined) === false) {
-			setCantWin(true);
+		for (let combo of combos) {
+			if (squares[combo[0]] === undefined || squares[combo[1]] === undefined || squares[combo[2]] === undefined) {
+			} else if (squares[combo[0]] === squares[combo[1]] && squares[combo[1]] === squares[combo[2]]) {
+				return setWinner(squares[combo[0]])
+			}
 		}
 	}
 
-	const handleClick = (num) => {
-		if (cells[num] !== undefined || winner !== undefined) return;
+	const handleHistoryJump = (step) => {
+		setStep(step);
+	}
 
-		let squares = [...cells];
+	const handleClick = (num) => {
+		const current = history[step];
+
+		if (step !== (history.length - 1)) return;
+
+		if (current[num] !== undefined || winner !== undefined) return;
+
+		let squares = [...current];
 		if (turn === 'x') {
 			squares[num] = 'x';
 			setTurn('o');
@@ -52,17 +48,22 @@ export default function TicTacToe(props) {
 			setTurn('x');
 		}
 
+		const newHistory = history.slice(0)
+		newHistory.push(squares);
+		setHistory(newHistory);
+		setStep(() => (step + 1))
 		checkForWinner(squares);
-		setCells(() => squares);
 	}
 
 	const handleRestartGame = () => {
 		setWinner(undefined);
-		setCells(Array(9).fill(undefined));
+		setHistory([Array(9).fill(undefined)]);
+		setStep(0);
 	}
 
 	const Cell = ({ num }) => {
-		return <td onClick={() => handleClick(num)}>{cells[num]}</td>
+		const current = history[step];
+		return <td onClick={() => handleClick(num)}>{current[num]}</td>
 	}
 
 	const Winner = ({ winner }) => {
@@ -75,6 +76,14 @@ export default function TicTacToe(props) {
 
 	const NewGameButton = () => {
 		return <button onClick={() => handleRestartGame()}>New Game</button>
+	}
+
+	const History = ({ historyArray }) => {
+		return (
+			<div>
+				{historyArray.slice(1).map((x, i) => <button onClick={() => handleHistoryJump(i)} key={i}>Turn {i + 1}</button>)}
+			</div>
+		)
 	}
 
 	return (
@@ -102,7 +111,8 @@ export default function TicTacToe(props) {
 				</table>
 			</div>
 			{winner && <Winner winner={winner} />}
-			{(winner || cantWin) && <NewGameButton />}
+			<NewGameButton />
+			<History historyArray={history} />
 		</div>
 	)
 }
