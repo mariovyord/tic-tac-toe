@@ -1,3 +1,5 @@
 # Tic Tac Toe
 
-Interactive tic-tac-toe game with React.
+ReactJS Tic Tac Toe Game.
+
+![Screenshot](tic-tac-toe-screenshot.png)
